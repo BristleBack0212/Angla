@@ -1,0 +1,7 @@
+<div class="input-group m-b">
+  <input type="text" class="form-control"
+         [readonly]="readonly"
+         [(ngModel)]="currencyStringData"
+         (input)="inputed($event.target.value)">
+  <span class="input-group-addon">{{ suffix }}</span>
+</div>

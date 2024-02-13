@@ -1,0 +1,72 @@
+TRANSPORT
+* Lấy mẫu công thức:
+- INPUT: customer_id, transport_date
+- OUTPUT: formulas
+
+* Tìm cước phí:
+- INPUT: formulas, transport_date, customer_id
+- OUTPUT: postage
+
+* Sửa/xóa đơn hàng
+- Không thể sửa/xóa đơn hàng đã xuất hóa đơn, hoặc phiếu thanh toán.
+Mẹo: xóa HĐ hoặc PTT rồi sửa/xóa.
+
+* Trạng thái
+ĐH Khống hay thường
+'' or Nhà xe or KH
+'' or HĐ or PTT
+Đủ or chưa
+
+POSTAGE vs FORMULA
+* Lấy mẫu công thức (Nếu có):
+- INPUT: customer_id, transport_date (Lấy ngày hiện tại)
+- OUTPUT: formulas
+
+* Sửa/xóa
+- Không thể sửa/xóa Cước phí và công thức đã có đơn hàng sử dụng.
+- Mẹo: xóa đơn hàng sử dụng Cước phí và công thức rồi sửa/xóa.
+
+FUEL
+* Thêm dầu
+- Validate: i_apply_date > apply_date.
+- Nếu i_apply_date < customers.apply_date -> Bỏ qua
+- Kiểm tra oil_limit của từng khách hàng.
+- Khách hàng nào vượt mốc:
+  + Nếu không vượt mốc -> bỏ qua.
+  + Nếu chưa có cước phí -> bỏ qua.
+  + Nếu cước phí có apply_date = null, rollback báo lỗi
+  + Lọc ra các cước phí có apply_date <= i_apply_date
+  + Lọc ra các cước phí có apply_date = max(apply_date) của list trên
+  + Nếu cước phí có công thức chứa giá dầu -> bỏ qua.
+  + Thêm Postage với apply_date = null
+  + Thêm Formulas
+  + Vô hiệu hóa FuelCustomer
+  + Thêm FuelCustomer
+
+* Sửa dầu
+- Không cho sửa, chỉ cho thêm mới
+- Mẹo: Có thể thêm mới và cho cùng ngày nhưng khác số phút.
+
+* Xóa dầu:
+- Không thể xóa dầu
+
+COST
+* Thêm chi phí
+
+* Sửa/xóa chi phí
+- Không thể sửa/xóa chi phí đã tính vào PTT
+- Mẹo: Xóa PTT rồi sửa/xóa chi phí
+
+INVOICE
+* Thêm HĐ, PTT
+- INPUT: transport_ids, type
+
+* Sửa/xóa HĐ, PTT
+- Không thể sửa/xóa HĐ, PTT đã trả đủ.
+
+* Trạng thái
+KH or Nhà xe
+HĐ or PTT
+khống hay thường
+
+add form TruckType, DriverTruck, Voucher, UnitPricePark, Unit, StaffCustomer, Product, ProductCode

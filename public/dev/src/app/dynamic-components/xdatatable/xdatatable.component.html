@@ -1,0 +1,68 @@
+<!--<div class="well well-lg">-->
+<!--Selected Row : <strong>{{selectedRow}}</strong>-->
+<!--</div>-->
+<button class="btn m-b-xs btn-sm btn-primary btn-addon" (click)="clicked('ADD')" *ngIf="action.ADD.visible">
+  <i [class]="action.ADD.icon"></i>{{action.ADD.caption}}
+</button>
+<button class="btn m-b-xs btn-sm btn-warning btn-addon" (click)="clicked('EDIT')" *ngIf="action.EDIT.visible">
+  <i [class]="action.EDIT.icon"></i>{{action.EDIT.caption}}
+</button>
+<button class="btn m-b-xs btn-sm btn-danger btn-addon" (click)="clicked('DELETE')" *ngIf="action.DELETE.visible">
+  <i [class]="action.DELETE.icon"></i>{{action.DELETE.caption}}
+</button>
+<button class="btn m-b-xs btn-sm btn-info btn-addon" (click)="changeSettingClass()" *ngIf="false">
+  <i class="fa fa-refresh"></i>Chọn
+</button>
+<button id="btn-show-modal" data-toggle="modal" data-target="#modal-confirm" hidden></button>
+<div class="table-responsive">
+  <table class="table table-striped b-t b-b">
+    <thead>
+    <tr>
+      <th>#
+        <i class="fa fa-sort-desc" *ngIf="isAsc" (click)="sortIndex('DESC')"></i>
+        <i class="fa fa-sort-asc" *ngIf="!isAsc" (click)="sortIndex('ASC')"></i>
+      </th>
+      <ng-container *ngFor="let key of header | ObjNgFor">
+        <th *ngIf="visible(key)">
+          {{header[key]['title']}}
+          <i class="fa fa-sort-desc" *ngIf="header[key].isDesc"
+             (click)="sortPropName(header[key]['data_type'], 'DESC', key)"></i>
+          <i class="fa fa-sort-asc" *ngIf="header[key].isAsc"
+             (click)="sortPropName(header[key]['data_type'], 'ASC', key)"></i>
+        </th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let tr of pagedItems; let i = index"
+        (click)="setClickedRow(i)"
+        [class.active]="activeRow(i)"
+        [class.highlight]="highlightRow(i)">
+      <td>{{i + 1}}</td>
+      <ng-container *ngFor="let key of header | ObjNgFor">
+        <td *ngIf="visible(key)" [innerHTML]="tr[key] | safeHtml"></td>
+      </ng-container>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="text-right">
+  <!-- pager -->
+  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="setPage(1)">Đầu</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="setPage(pager.currentPage - 1)">Trước</a>
+    </li>
+    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+      <a (click)="setPage(page)">{{page}}</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="setPage(pager.currentPage + 1)">Sau</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="setPage(pager.totalPages)">Cuối</a>
+    </li>
+  </ul>
+</div>

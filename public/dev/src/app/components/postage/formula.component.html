@@ -1,0 +1,28 @@
+<div [formGroup]="formulaForm">
+  <div class="form-group">
+    <label class="col-md-2 control-label">Tên trường</label>
+    <div class="col-md-10">
+      <input type="text"
+             class="form-control"
+             formControlName="name">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label">{{ rule == 'SINGLE' ? 'Giá trị' : 'Từ' }}</label>
+    <div class="col-md-10">
+      <input type="text"
+             class="form-control"
+             formControlName="value1">
+    </div>
+  </div>
+
+  <div class="form-group" *ngIf="rule != 'SINGLE'">
+    <label class="col-md-2 control-label">Đến</label>
+    <div class="col-md-10">
+      <input type="text"
+             class="form-control"
+             formControlName="value2">
+    </div>
+  </div>
+</div>
